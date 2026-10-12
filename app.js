@@ -1,4 +1,15 @@
+let allProducts = [];
+const search = document.getElementById('search');
 
+search.addEventListener('input', (event) => {
+    const text = event.target.value.toLowerCase();
+    
+    const found = allProducts.filter(item => {
+        const currentText = item.title.toLowerCase();
+        return currentText.includes(text);
+    });
+    renderProduct(found);
+});
 
 async function loadProduct() {
     try {
@@ -7,7 +18,7 @@ async function loadProduct() {
             throw new Error('Ошибка сервера: ' + res.status);
         }
         const product = await res.json();
-        
+        allProducts = product;
         renderProduct(product);
     } catch(error) {
         console.log("Error!", error);
@@ -26,10 +37,4 @@ function renderProduct(product) {
             .join(''); 
 }
 
-
-
 loadProduct()
-
-
-
-
