@@ -29,12 +29,16 @@ async function loadProduct() {
 
 function renderProduct(product) {
     const container = document.getElementById("prod")
-        container.innerHTML = product
-            .map((item, i) => `<article>
-            ${i + 1}. ${item.title}. ${item.price}. <br>
-            ${item.description}.<br>
-            <img src="${item.image}" alt="${item.title}" width="100" height="100"> <br><br></article>`)
-            .join(''); 
+    if(product.length === 0){
+            container.innerHTML = `<article>Not found</article>`;
+            return;
+        }
+    container.innerHTML = product
+        .map((item, i) => `<article>
+        ${i + 1}. ${item.title}. ${item.price}. <br>
+        ${item.description}.<br>
+        <img src="${item.image}" alt="${item.title}" width="100" height="100"> <br><br></article>`)
+        .join(''); 
 }
 
 loadProduct()
