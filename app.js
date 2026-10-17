@@ -1,5 +1,6 @@
 let allProducts = [];
 const search = document.getElementById('search');
+const category = document.getElementById('category');
 
 search.addEventListener('input', (event) => {
     const text = event.target.value.toLowerCase();
@@ -10,7 +11,16 @@ search.addEventListener('input', (event) => {
     });
     renderProduct(found);
 });
-
+category.addEventListener('change', function(event) {
+        console.log(event.target.value);
+        const currentCategory = event.target.value;
+        const foundCategory = allProducts.filter(item => item.category === currentCategory)
+        if(currentCategory === 'all'){
+            renderProduct(allProducts)
+            return;
+        }
+        renderProduct(foundCategory)
+});
 async function loadProduct() {
     try {
         const res = await fetch("https://fakestoreapi.com/products");
