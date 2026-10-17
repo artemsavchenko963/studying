@@ -2,24 +2,12 @@ let allProducts = [];
 const search = document.getElementById('search');
 const category = document.getElementById('category');
 
-search.addEventListener('input', (event) => {
-    const text = event.target.value.toLowerCase();
-    
-    const found = allProducts.filter(item => {
-        const currentText = item.title.toLowerCase();
-        return currentText.includes(text);
-    });
-    renderProduct(found);
+search.addEventListener('input', () => {
+    applyFilters();
 });
-category.addEventListener('change', function(event) {
-        console.log(event.target.value);
-        const currentCategory = event.target.value;
-        const foundCategory = allProducts.filter(item => item.category === currentCategory)
-        if(currentCategory === 'all'){
-            renderProduct(allProducts)
-            return;
-        }
-        renderProduct(foundCategory)
+
+category.addEventListener('change', () => {
+    applyFilters();
 });
 async function loadProduct() {
     try {
@@ -51,4 +39,22 @@ function renderProduct(product) {
         .join(''); 
 }
 
+function applyFilters() {
+    const text = search.value.toLowerCase();
+    const selectedCategory = category.value;
+
+    let result = allProducts;
+
+    if (selectedCategory !== 'all') {
+        result = result.filter(item => item.category === selectedCategory);
+    }
+
+    result = result.filter(item => item.title.toLowerCase().includes(text));   
+
+    renderProduct(result);               
+}
 loadProduct()
+
+
+// 
+// 
